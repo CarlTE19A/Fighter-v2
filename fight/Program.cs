@@ -16,8 +16,23 @@ namespace fight
 
             Random generator = new Random();
 
-            int fightS1;
-            int fightS2;
+            string playerAttack = "";
+
+            //Multipliers for player attacks
+            int playerHitSpeed;
+            int playerHitStrength;
+            int playerHeal;
+            int playerStun;
+            int playerFail;
+
+            int botAttack;
+
+            //Multipliers for Bot attacks
+            int botHitSpeed;
+            int botHitStrength;
+            int botHeal;
+            int botStun;
+            int botFail;
 
             intro();
 
@@ -48,21 +63,81 @@ namespace fight
                 }
                 fighter1 = fighter1.ToUpper();
                 System.Console.WriteLine("IN THE LEFT CORNER WE GOT " + fighter1 + "!!!!");
-                fighter2R = generator.Next(3);
+                fighter2R = generator.Next(15);
             
                 if(fighter2R == 0)
                 {
                     fighter2 = "BOB";
                 }
 
-                if(fighter2R == 1)
+                else if(fighter2R == 1)
                 {
                     fighter2 = "GOLIATH";
                 }
 
-                if(fighter2R == 2)
+                else if(fighter2R == 2)
                 {
                     fighter2 = "DAVID";
+                }
+
+                else if(fighter2R == 3)
+                {
+                    fighter2 = "ALEX";
+                }
+
+                else if(fighter2R == 4)
+                {
+                    fighter2 = "THAT OTHER DUDE";
+                }
+
+                else if(fighter2R == 5)
+                {
+                    fighter2 = "MARIO";
+                }
+
+                else if(fighter2R == 6)
+                {
+                    fighter2 = "LIAM";
+                }
+
+                else if(fighter2R == 7)
+                {
+                    fighter2 = "WILLIAM";
+                }
+
+                else if(fighter2R == 8)
+                {
+                    fighter2 = "LUCIFER";
+                }
+
+                else if(fighter2R == 9)
+                {
+                    fighter2 = "GOD";
+                }
+
+                else if(fighter2R == 10)
+                {
+                    fighter2 = "HUNTER";
+                }
+
+                else if(fighter2R == 11)
+                {
+                    fighter2 = "ETHAN";
+                }
+
+                else if(fighter2R == 12)
+                {
+                    fighter2 = "BENJAMIN";
+                }
+                
+                else if(fighter2R == 13)
+                {
+                    fighter2 = "OLIVER";
+                }
+
+                else if(fighter2R == 14)
+                {
+                    fighter2 = "MR VAN ARKEL";
                 }
 
                 System.Console.WriteLine("AAAANNND IN THE RIGHT CORNER WE HAVE " + fighter2 + "!!");
@@ -82,35 +157,163 @@ namespace fight
                 System.Console.WriteLine("ONE!!");
                 Thread.Sleep(300);
                 System.Console.WriteLine("FIGHT!!!!");
-                System.Console.WriteLine("");
-                while(fighter1Hp > 0 && fighter2Hp > 0){
-                    fightS1 = generator.Next(26);
-                    fightS2 = generator.Next(26);
-                    fighter1Hp -= fightS2;
-                    fighter2Hp -= fightS1;
-                    if(fighter1Hp < 0)
+                while(fighter1Hp > 0 && fighter2Hp > 0)
+                {
+                    while(playerAttack != "heavy" && playerAttack != "light" && playerAttack != "magic" && playerAttack != "stun" && playerAttack != "heal")
                     {
-                        fighter1Hp = 0;
+                        Console.Clear();
+                        System.Console.WriteLine("What Attack do you want to use");
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        System.Console.Write("Heavy");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        System.Console.Write(" | ");
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        System.Console.Write("Light");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        System.Console.Write(" | ");
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        System.Console.Write("Magic");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        System.Console.Write(" | ");
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        System.Console.Write("Stun");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        System.Console.Write(" | ");
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        System.Console.WriteLine("Heal");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        playerAttack = Console.ReadLine();
+                        playerAttack = playerAttack.ToLower();
                     }
 
-                    if(fighter2Hp < 0)
+                    if(playerAttack == "heavy")
                     {
-                        fighter2Hp = 0;
+                        playerHitSpeed = 1;
+                        playerHitStrength = 2;
+                        playerHeal = 0;
+                        playerStun = 0;
+                        playerFail = 1;
+                    }
+                    else if(playerAttack == "light")
+                    {
+                        playerHitSpeed = 2;
+                        playerHitStrength = 1;
+                        playerHeal = 0;
+                        playerStun = 0;
+                        playerFail = 1;
+                    }
+                    else  if(playerAttack == "magic")
+                    {
+                        playerHitSpeed = 2;
+                        playerHitStrength = 3;
+                        playerHeal = 1;
+                        playerStun = 0;
+                        playerFail = 2;
+                    }
+                    else if(playerAttack == "stun")
+                    {
+                        playerHitSpeed = 2;
+                        playerHitStrength = 0;
+                        playerHeal = 0;
+                        playerStun = 1;
+                        playerFail = 1;
+                    }
+                    else if(playerAttack == "heal")
+                    {
+                        playerHitSpeed = 1;
+                        playerHitStrength = 0;
+                        playerHeal = 1;
+                        playerStun = 0;
+                        playerFail = 1;
+                    }
+                    else
+                    {
+                        playerHitSpeed = 0;
+                        playerHitStrength = 0;
+                        playerHeal = 0;
+                        playerStun = 0;
+                        playerFail = 0;
+                        System.Console.WriteLine("Oh we fucked up");
+                    }
+    
+                    playerHitSpeed = generator.Next(11) * playerHitSpeed;
+                    playerHitStrength = generator.Next(11) * playerHitStrength;
+                    playerHeal = generator.Next(11) * playerHeal;
+                    playerFail = generator.Next(11) * playerFail;
+
+                    botAttack = generator.Next(5);
+                    if(botAttack == 0)
+                    {
+                        botHitSpeed = 1;
+                        botHitStrength = 2;
+                        botHeal = 0;
+                        botStun = 0;
+                        botFail = 1;
+                    }
+                    else if(botAttack == 1)
+                    {
+                        botHitSpeed = 2;
+                        botHitStrength = 1;
+                        botHeal = 0;
+                        botStun = 0;
+                        botFail = 1;
+                    }
+                    else if(botAttack == 2)
+                    {
+                        botHitSpeed = 2;
+                        botHitStrength = 3;
+                        botHeal = 1;
+                        botStun = 0;
+                        botFail = 2;
+                    }
+                    else if(botAttack == 3)
+                    {
+                        botHitSpeed = 2;
+                        botHitStrength = 0;
+                        botHeal = 0;
+                        botStun = 1;
+                        botFail = 1;
+                    }
+                    else if(botAttack == 4)
+                    {
+                        botHitSpeed = 1;
+                        botHitStrength = 0;
+                        botHeal = 1;
+                        botStun = 0;
+                        botFail = 1;
+                    }
+                    else
+                    {
+                        botHitSpeed = 0;
+                        botHitStrength = 0;
+                        botHeal = 0;
+                        botStun = 0;
+                        botFail = 0;
+                        System.Console.WriteLine("Oh we fucked up");
+                    }
+ 
+                    botHitSpeed = generator.Next(11) * botHitSpeed;
+                    botHitStrength = generator.Next(11) * botHitStrength;
+                    botHeal = generator.Next(11) * botHeal;
+                    botFail = generator.Next(11) * botFail;
+
+                    if(playerHitSpeed == botHitSpeed)
+                    {
+                        botHitSpeed = generator.Next(1000);
+                        playerHitSpeed = generator.Next(1000);
                     }
 
-                    if(fightS1 > fightS2)
-                    {
-                        System.Console.WriteLine(fighter1 + " got in a good hit taking " + fighter2 + " to " + fighter2Hp + " health!");
-                        System.Console.WriteLine(fighter2 + " at least got in a hit and took " + fighter1 + " to " + fighter1Hp + " health!");
+                    if(playerHitSpeed > botHitSpeed){ //Player goes first
+                    
                     }
-                    else if(fightS1 < fightS2)
-                    {
-                        System.Console.WriteLine(fighter2 + " got in a good hit taking " + fighter1 + " to " + fighter1Hp + " health!");
-                        System.Console.WriteLine(fighter1 + " at least got in a hit and took " + fighter2 + " to " + fighter2Hp + " health!");
+                    else{ //Bot goes first
+                    
                     }
+                    System.Console.WriteLine("help");
                     Console.ReadLine();
-                    Console.Clear();
+                    playerAttack = "";
                 }
+
                 endFight();
             }
             
