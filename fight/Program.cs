@@ -7,8 +7,8 @@ namespace fight
     {
         static void Main(string[] args)
         {
-            int fighter1Hp = 100;
-            int fighter2Hp = 100;
+            int playerHp = 100;
+            int botHp = 100;
 
             string fighter1 = "";
             string fighter2 = "";
@@ -26,6 +26,7 @@ namespace fight
             int playerFail;
 
             int botAttack;
+            string botAttackString = "";
 
             //Multipliers for Bot attacks
             int botHitSpeed;
@@ -37,8 +38,8 @@ namespace fight
             intro();
 
             void intro(){
-                fighter1Hp = 100;
-                fighter2Hp = 100;
+                playerHp = 100;
+                botHp = 100;
                 System.Console.WriteLine("Are you ready to RUMLE!!");
                 Console.ReadLine();
                 Console.Clear();
@@ -157,9 +158,9 @@ namespace fight
                 System.Console.WriteLine("ONE!!");
                 Thread.Sleep(300);
                 System.Console.WriteLine("FIGHT!!!!");
-                while(fighter1Hp > 0 && fighter2Hp > 0)
+                while(playerHp > 0 && botHp > 0)
                 {
-                    while(playerAttack != "heavy" && playerAttack != "light" && playerAttack != "magic" && playerAttack != "stun" && playerAttack != "heal")
+                    while(playerAttack != "heavy" && playerAttack != "quick" && playerAttack != "magic" && playerAttack != "stun" && playerAttack != "heal" && playerHp > 0 && botHp > 0)
                     {
                         Console.Clear();
                         System.Console.WriteLine("What Attack do you want to use");
@@ -168,7 +169,7 @@ namespace fight
                         Console.ForegroundColor = ConsoleColor.White;
                         System.Console.Write(" | ");
                         Console.ForegroundColor = ConsoleColor.Blue;
-                        System.Console.Write("Light");
+                        System.Console.Write("Quick");
                         Console.ForegroundColor = ConsoleColor.White;
                         System.Console.Write(" | ");
                         Console.ForegroundColor = ConsoleColor.Green;
@@ -194,7 +195,7 @@ namespace fight
                         playerStun = 0;
                         playerFail = 1;
                     }
-                    else if(playerAttack == "light")
+                    else if(playerAttack == "quick")
                     {
                         playerHitSpeed = 2;
                         playerHitStrength = 1;
@@ -236,10 +237,10 @@ namespace fight
                         System.Console.WriteLine("Oh we fucked up");
                     }
     
-                    playerHitSpeed = generator.Next(11) * playerHitSpeed;
-                    playerHitStrength = generator.Next(11) * playerHitStrength;
-                    playerHeal = generator.Next(11) * playerHeal;
-                    playerFail = generator.Next(11) * playerFail;
+                    playerHitSpeed = generator.Next(1, 11) * playerHitSpeed;
+                    playerHitStrength = generator.Next(1, 11) * playerHitStrength;
+                    playerHeal = generator.Next(1, 11) * playerHeal;
+                    playerFail = generator.Next(1, 11) * playerFail;
 
                     botAttack = generator.Next(5);
                     if(botAttack == 0)
@@ -249,6 +250,7 @@ namespace fight
                         botHeal = 0;
                         botStun = 0;
                         botFail = 1;
+                        botAttackString = "heavy";
                     }
                     else if(botAttack == 1)
                     {
@@ -257,6 +259,7 @@ namespace fight
                         botHeal = 0;
                         botStun = 0;
                         botFail = 1;
+                        botAttackString = "quick";
                     }
                     else if(botAttack == 2)
                     {
@@ -265,6 +268,7 @@ namespace fight
                         botHeal = 1;
                         botStun = 0;
                         botFail = 2;
+                        botAttackString = "magic";
                     }
                     else if(botAttack == 3)
                     {
@@ -273,14 +277,16 @@ namespace fight
                         botHeal = 0;
                         botStun = 1;
                         botFail = 1;
+                        botAttackString = "stun";
                     }
                     else if(botAttack == 4)
                     {
                         botHitSpeed = 1;
                         botHitStrength = 0;
-                        botHeal = 1;
+                        botHeal = 3;
                         botStun = 0;
                         botFail = 1;
+                        botAttackString = "heal";
                     }
                     else
                     {
@@ -292,10 +298,10 @@ namespace fight
                         System.Console.WriteLine("Oh we fucked up");
                     }
  
-                    botHitSpeed = generator.Next(11) * botHitSpeed;
-                    botHitStrength = generator.Next(11) * botHitStrength;
-                    botHeal = generator.Next(11) * botHeal;
-                    botFail = generator.Next(11) * botFail;
+                    botHitSpeed = generator.Next(1, 11) * botHitSpeed;
+                    botHitStrength = generator.Next(1, 11) * botHitStrength;
+                    botHeal = generator.Next(1, 11) * botHeal;
+                    botFail = generator.Next(1, 11) * botFail;
 
                     if(playerHitSpeed == botHitSpeed)
                     {
@@ -303,35 +309,157 @@ namespace fight
                         playerHitSpeed = generator.Next(1000);
                     }
 
-                    if(playerHitSpeed > botHitSpeed){ //Player goes first
-                    
+                    if(playerHitSpeed > botHitSpeed) //Player goes first
+                    {
+                        botHp -= playerHitStrength;
+                        playerHp += playerHeal;
+                        if(playerAttack != "heal" && playerAttack != "stun")
+                        {
+                            System.Console.Write(fighter1 + " hits " + fighter2 + " with a ");
+                            if(playerAttack == "heavy"){Console.ForegroundColor = ConsoleColor.DarkGray;}
+                            if(playerAttack == "quick"){Console.ForegroundColor = ConsoleColor.Blue;}
+                            if(playerAttack == "stun"){Console.ForegroundColor = ConsoleColor.Green;}
+                            System.Console.Write(playerAttack);
+                            Console.ForegroundColor = ConsoleColor.White;
+                            System.Console.WriteLine(" attack");
+                            System.Console.WriteLine(fighter2 + " is now at ");
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            System.Console.Write(botHp);
+                            Console.ForegroundColor = ConsoleColor.White;
+                            System.Console.WriteLine(" Health");
+                            
+                        }
+                        if(playerAttack == "heal")
+                        {
+                            System.Console.Write(fighter1 + " heals and brings his hp to ");
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            System.Console.Write(playerHp);
+                            Console.ForegroundColor = ConsoleColor.White;
+                            System.Console.WriteLine(" Health");
+                        }
+                        if(playerAttack == "stun")
+                        {
+
+                        }
+
+                        if(botHp >=0)
+                        {
+                            playerHp -= botHitStrength;
+                            botHp += botHeal;
+                            if(botAttackString != "heal" && botAttackString != "stun")
+                            {
+                                System.Console.Write(fighter2 + " hits " + fighter1 + " with a ");
+                                if(botAttackString == "heavy"){Console.ForegroundColor = ConsoleColor.DarkGray;}
+                                if(botAttackString == "quick"){Console.ForegroundColor = ConsoleColor.Blue;}
+                                if(botAttackString == "stun"){Console.ForegroundColor = ConsoleColor.Green;}
+                                System.Console.Write(botAttackString);
+                                Console.ForegroundColor = ConsoleColor.White;
+                                System.Console.WriteLine(" attack");
+                                System.Console.WriteLine(fighter1 + " is now at ");
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                System.Console.Write(playerHp);
+                                Console.ForegroundColor = ConsoleColor.White;
+                                System.Console.WriteLine(" Health");
+                            }
+                            if(botAttackString == "heal")
+                            {
+                                System.Console.Write(fighter2 + " heals and brings his hp to ");
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                System.Console.Write(botHp);
+                                Console.ForegroundColor = ConsoleColor.White;
+                                System.Console.WriteLine(" Health");
+                            }
+                            if(botAttackString == "stun")
+                            {
+
+                            }
+                        }
                     }
-                    else{ //Bot goes first
-                    
+                    else //Bot goes first
+                    {
+                        playerHp -= botHitStrength;
+                        botHp += botHeal;
+                        if(botAttackString != "heal" && botAttackString != "stun")
+                        {
+                            System.Console.Write(fighter2 + " hits " + fighter1 + " with a ");
+                            if(botAttackString == "heavy"){Console.ForegroundColor = ConsoleColor.DarkGray;}
+                            if(botAttackString == "quick"){Console.ForegroundColor = ConsoleColor.Blue;}
+                            if(botAttackString == "stun"){Console.ForegroundColor = ConsoleColor.Green;}
+                            System.Console.Write(botAttackString);
+                            Console.ForegroundColor = ConsoleColor.White;
+                            System.Console.WriteLine(" attack");
+                            System.Console.Write(fighter1 + " is now at ");
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            System.Console.Write(playerHp);
+                            Console.ForegroundColor = ConsoleColor.White;
+                            System.Console.WriteLine(" Health");
+                        }
+                        if(botAttackString == "heal")
+                        {
+                            System.Console.Write(fighter2 + " heals and brings his hp to ");
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            System.Console.Write(botHp);
+                            Console.ForegroundColor = ConsoleColor.White;
+                            System.Console.WriteLine(" Health");
+                        }
+                        if(botAttackString == "stun")
+                        {
+
+                        }
+                        if(playerHp >= 0)
+                        {
+                            botHp -= playerHitStrength;
+                            playerHp += playerHeal;
+                            if(playerAttack != "heal" && playerAttack != "stun")
+                            {
+                                System.Console.Write(fighter1 + " hits " + fighter2 + " with a ");
+                                if(playerAttack == "heavy"){Console.ForegroundColor = ConsoleColor.DarkGray;}
+                                if(playerAttack == "quick"){Console.ForegroundColor = ConsoleColor.Blue;}
+                                if(playerAttack == "stun"){Console.ForegroundColor = ConsoleColor.Green;}
+                                System.Console.Write(playerAttack);
+                                Console.ForegroundColor = ConsoleColor.White;
+                                System.Console.WriteLine(" attack");
+                                System.Console.WriteLine(fighter2 + " is now at ");
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                System.Console.Write(botHp);
+                                Console.ForegroundColor = ConsoleColor.White;
+                                System.Console.WriteLine(" Health");
+                            }
+                            if(playerAttack == "heal")
+                            {
+                                System.Console.Write(fighter1 + " heals and brings his hp to ");
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                System.Console.Write(playerHp);
+                                Console.ForegroundColor = ConsoleColor.White;
+                                System.Console.WriteLine(" Health");
+                            }
+                            if(playerAttack == "stun")
+                            {
+
+                            }
+                        }
                     }
-                    System.Console.WriteLine("help");
                     Console.ReadLine();
                     playerAttack = "";
                 }
-
                 endFight();
             }
             
             void endFight(){
-                if(fighter1Hp == 0 && fighter2Hp == 0)
+                if(playerHp <= 0 && botHp <= 0)
                 {
                     System.Console.WriteLine("Both Fighters are down and its a DRAW!!");
                     System.Console.WriteLine("Goodbye people and come for the next fight TOMORROW!");
                     Console.ReadLine();
                     wakeUp();
                 }
-                else if(fighter1Hp == 0)
+                else if(playerHp <= 0)
                 {
                     System.Console.WriteLine(fighter1 + " is down and " + fighter2 + " is the WINNER!");
                     Console.ReadLine();
                     wakeUp();
                 }
-                else if(fighter2Hp == 0)
+                else if(botHp <= 0)
                 {
                     System.Console.WriteLine(fighter2 + " is down and " + fighter1 + " is the WINNER!");
                     System.Console.WriteLine("");
