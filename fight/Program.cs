@@ -35,16 +35,22 @@ namespace fight
             int botStun;
             int botFail;
 
+            int coin = 10; //Player Coins
+
             intro();
 
             void intro(){
                 playerHp = 100;
                 botHp = 100;
                 System.Console.WriteLine("Are you ready to RUMLE!!");
-                Console.ReadLine();
-                Console.Clear();
+                System.Console.WriteLine("");
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                System.Console.WriteLine("Coin: " + coin);
+                Console.ForegroundColor = ConsoleColor.White;
+                Thread.Sleep(1000);
                 while(fighter1.Length < 2 || fighter1.Length > 15)
                 {
+                    Console.Clear();
                     System.Console.WriteLine("*Whats your name kid?");
                     fighter1 = Console.ReadLine();
                     if(fighter1.Length < 2)
@@ -63,6 +69,7 @@ namespace fight
                     }
                 }
                 fighter1 = fighter1.ToUpper();
+                Console.Clear();
                 System.Console.WriteLine("IN THE LEFT CORNER WE GOT " + fighter1 + "!!!!");
                 fighter2R = generator.Next(15);
             
@@ -147,6 +154,10 @@ namespace fight
                 Console.ReadLine();
 
                 fight();
+            }
+
+            void betting(){
+                System.Console.WriteLine("Do you want to bet ");
             }
 
             void fight(){
